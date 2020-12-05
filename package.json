@@ -1,0 +1,22 @@
+{
+  "name": "natufia",
+  "version": "1.0.0",
+  "description": "IoT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ammar-Alfarhan/natufia.git"
+  },
+  "author": "Ammar Alfarhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ammar-Alfarhan/natufia/issues"
+  },
+  "homepage": "https://github.com/Ammar-Alfarhan/natufia#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
