@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="./index.css" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+            
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>     		
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>	
+    <script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+    <title>IoT Natufia</title>
+</head>
+<body>
+    <div class="btn">
+        <button type="submit" id="btnTemperature">Show Temperature Record</button>
+        <button type="submit" id="btnDoor">Show Door Open Record</button>
+    </div>
+    <div class="inlineTable center">
+        <div>
+            <table id="temperature" class=" content-table">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table id="door" class=" content-table" style="margin-top: 5%;">
+             <thead>
+             </thead>
+             <tbody>
+             </tbody>
+         </table>  
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+// This button is to fetch temperature records
+// and load it
+    const btnTemerature = document.getElementById("btnTemperature");
+    btnTemerature.addEventListener("click", async () =>{
+        loadTemperature();
+        var table = $('#temperature');
+        // refresh every 30 seconds
+        var refresher = setInterval(function(){
+            table.load(loadTemperature());
+        }, 30000);
+        setTimeout(function() {
+            clearInterval(refresher);
+        }, 1800000);
+    });
+
+    // This function is to load the data from the database
+    // into the table 
+    async function loadTemperature(){
+        const result = await fetch('/requested/temperature', {"method": "GET", "headers": {"content-type": "application/json"},});
+        const jResult = await result.json();
+        var temperature = '';
+        
+        for (var i=0; i < jResult.length; i++){
+            if(jResult[i].alert == "True"){
+                temperature += '<tr class="active-row">';
+                    temperature += '<td>' + jResult[i].id + '</td>';
+                    temperature += '<td>' + jResult[i].sensorId + '</td>';
+                    temperature += '<td>' + jResult[i].temperature + '</td>';
+                    temperature += '<td>' + jResult[i].alert + '</td>';
+                    var timestamp = Number(jResult[i].timestamp);
+                    var date = new Date(timestamp * 1000).toLocaleString();
+                    temperature += '<td>' + date + '</td>';
+                    temperature += '</tr>';
+                }
+                if(jResult[i].alert == "False"){
+                    temperature += '<tr>';
+                        temperature += '<td>' + jResult[i].id + '</td>';
+                        temperature += '<td>' + jResult[i].sensorId + '</td>';
+                        temperature += '<td>' + jResult[i].temperature + '</td>';
+                        temperature += '<td>' + jResult[i].alert + '</td>';
+                        var timestamp = Number(jResult[i].timestamp);
+                        var date = new Date(timestamp * 1000).toLocaleString();
+                        temperature += '<td>' + date + '</td>';
+                        temperature += '</tr>';
+                    }
+                }
+                
+                document.querySelector("#temperature thead").innerHTML = '<tr> <th>#</th> <th>SensorId</th> <th>Temperature</th> <th>Alert</th> <th>Thimestamp</th> </tr>';
+                document.querySelector("#temperature tbody").innerHTML = temperature;
+                
+                $(document).ready(function() {
+                    $('#temperature').DataTable( {
+                        searching: false,
+                        ordering: false,
+                        destroy: true,
+                        responsive: true,
+                        order: [[4, 'desc']],
+                        lengthChange: false
+                    } );
+                });
+    }
+
+    // This button is to fetch temperature records
+    // and load it
+    const btnDoor = document.getElementById("btnDoor");
+    btnDoor.addEventListener("click", async () =>{
+        var table = $('#door');
+        // refresh every 30 seconds
+        var refresher = setInterval(function(){
+            table.load(loadDoor());
+        }, 30000);
+        setTimeout(function() {
+            clearInterval(refresher);
+        }, 1800000);
+        loadDoor();
+    });
+
+    // This function is to load the data from the database
+    // into the table 
+    async function loadDoor(){
+        const result = await fetch('/requested/door-open', {"method": "GET", "headers": {"content-type": "application/json"},});
+        const jResult = await result.json();
+        var door = '';
+
+        for (var i=0; i < jResult.length; i++){
+            door += '<tr>';
+                door += '<td>' + jResult[i].id + '</td>';
+                door += '<td>' + jResult[i].sensorId + '</td>';
+                door += '<td>' + jResult[i].doorOpen + '</td>';
+                var timestamp = Number(jResult[i].timestamp);
+                var date = new Date(timestamp * 1000).toLocaleString();
+                door += '<td>' + date + '</td>';
+            door += '</tr>';
+        } 
+        document.querySelector("#door thead").innerHTML = '<tr> <th>#</th> <th>SensorId</th> <th>Door Open</th> <th>Thimestamp</th> </tr>';
+        document.querySelector("#door tbody").innerHTML = door;
+
+        $(document).ready(function() {
+            $('#door').DataTable( {
+                searching: false,
+                ordering: false,
+                destroy: true,
+                responsive: true,
+                order: [[3, 'desc']],
+                lengthChange: false
+            } );
+        });
+    }
+</script>
+</html>

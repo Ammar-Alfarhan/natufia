@@ -1,0 +1,27 @@
+CREATE DATABASE natufia;
+
+use natufia;
+
+CREATE TABLE sensor_ids (
+    sensorId INT NOT NULL,
+    PRIMARY KEY(sensorId)
+    );
+    
+    CREATE TABLE temperature (
+    id INT NOT NULL AUTO_INCREMENT,
+    sensorId INT,
+    temperature FLOAT,
+    alert VARCHAR(5),
+    timestamp VARCHAR(25),
+    PRIMARY KEY(id),
+    FOREIGN KEY(sensorId) REFERENCES sensor_ids(sensorId)
+);
+
+CREATE TABLE door_open (
+    id INT NOT NULL AUTO_INCREMENT,
+    sensorId INT,
+    doorOpen VARCHAR(5),
+    timestamp VARCHAR(25),
+    PRIMARY KEY(id),
+    FOREIGN KEY(sensorId) REFERENCES sensor_ids(sensorId)
+);

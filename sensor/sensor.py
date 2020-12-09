@@ -27,15 +27,3 @@ def doorOpen():
 ############################################################################
 def getTimestamp():
     return time.time()
-
-# def main():
-#     temperature = getTemperature()
-#     isIn = isOutside(temperature)
-#     isDoorOpen = doorOpen()
-#     timestamp = getTimestamp()
-
-#     print("\ntemp=",temperature," C\n")
-#     print("isOutside",isIn," \n")
-#     print("isDoorOpen",isDoorOpen,"\n")
-#     print("timestamp",timestamp,"\n")
-#     print("current time=",datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S'),"\n")

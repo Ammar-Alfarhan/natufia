@@ -1,0 +1,91 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    width: auto;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #88805b;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    text-align: center;
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #88805b;
+}
+
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #d41c1c86;
+}
+
+.inlineTable {
+    display: inline-block;
+}
+
+.center {
+    margin-top: 2%;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-bottom: 5%;
+}
+
+#btnDoor,
+#btnTemperature{
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.400);
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:bold;
+    color:#FFFFFF;
+    background-color:#88805b;
+    text-align:center;
+    transition: all 0.2s;
+}
+#btnDoor:hover,
+#btnTemperature:hover{
+    font-weight: bold;
+    color: #18463ad2;
+    background-color:#c6c2b2;
+}
+@media all and (max-width:30em){
+    #btnDoor,
+    #btnTemperature{
+        display:block;
+        margin:0.2em auto;
+    }
+}
+
+.btn{
+    display: inline;
+    margin-top: 2%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
